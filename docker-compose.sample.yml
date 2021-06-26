@@ -13,6 +13,8 @@ services:
         volumes:
             - /srv/vc_mongodb:/data/db
             - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+        networks:
+            - mongodb
             
     mosquitto:
         image: eclipse-mosquitto
@@ -23,6 +25,8 @@ services:
             - 9001:9001
         volumes:
             - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+        networks:
+            - mosquitto
             
     rabbitmq:
         image: rabbitmq:3-management-alpine
@@ -36,3 +40,13 @@ services:
         ports:
             - 5672:5672
             - 15672:15672
+        networks:
+            - rabbitmq
+
+networks:
+    mongodb:
+        name: atlas-project-network
+    mosquitto:
+        name: atlas-project-network
+    rabbitmq:
+        name: atlas-project-network
